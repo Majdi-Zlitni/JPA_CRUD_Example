@@ -1,24 +1,27 @@
-	package model;
+package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
-
 
 /**
  * The persistent class for the client database table.
  * 
  */
 @Entity
-@NamedQuery(name="Client.findAll", query="SELECT c FROM Client c")
+@NamedQueries({ @NamedQuery(name = "Client.findAll", query = "SELECT c FROM Client c"),
+		@NamedQuery(name = "Client.finCin", query = "SELECT c FROM Client c WHERE c.cin=?1"),
+		@NamedQuery(name = "Client.Delete", query = "DELETE FROM Client c WHERE c.cin=?1"),
+		@NamedQuery(name = "Client.Update", query = "UPDATE Client c SET c.cin=cin,c.adresse=adresse,c.nom=nom,c.prenom=prenom,c.tel=tel")
+})
+
 public class Client implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+
 	private int cin;
 
-	@Lob
 	private String adresse;
 
 	private String nom;
@@ -27,15 +30,19 @@ public class Client implements Serializable {
 
 	private int tel;
 
-	//bi-directional many-to-one association to Compt
-	@OneToMany(mappedBy="client", fetch=FetchType.EAGER)
+	// bi-directional many-to-one association to Compt
+	@OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
 	private List<Compt> compts;
 
 	public Client() {
 	}
 
-	public Client(int i, String string, String string2, int j, String string3) {
-		// TODO Auto-generated constructor stub
+	public Client(int cin, String adresse, String nom, String prenom, int tel) {
+		this.cin = cin;
+		this.adresse = adresse;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.tel = tel;
 	}
 
 	public int getCin() {

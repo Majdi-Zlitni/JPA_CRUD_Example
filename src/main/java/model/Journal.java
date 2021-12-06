@@ -11,12 +11,14 @@ import java.util.Date;
  * 
  */
 @Entity
-@NamedQuery(name="Journal.findAll", query="SELECT j FROM Journal j")
+@NamedQueries({
+@NamedQuery(name="Journal.findAll", query="SELECT j FROM Journal j"),
+@NamedQuery(name = "Journal.findlog", query = "SELECT j FROM Journal j WHERE j.IDlog=?1")
+})
 public class Journal implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int IDlog;
 
 	@Temporal(TemporalType.DATE)
